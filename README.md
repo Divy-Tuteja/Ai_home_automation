@@ -71,7 +71,15 @@ ESP32
 Relay Module (1 channel / 4 channel)
 Power Supply
 Light / Appliance
+{
 
+Esp32 dev module
+Relay module
+Application (For giving commands), like - MIT A12 (for beginners)
+Internet connection
+24/7 online server - (Example - Render)
+
+}
 
 💡 Future Improvements
 
