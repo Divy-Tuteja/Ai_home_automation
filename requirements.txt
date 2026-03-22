@@ -2,3 +2,4 @@ Esp32 dev module
 Relay module
 Application (For giving commands)
 Internet connection
+24/7 online server - (Example - Render)
