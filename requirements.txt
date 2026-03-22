@@ -1,5 +1,2 @@
-Esp32 dev module
-Relay module
-Application (For giving commands), like - MIT A12 (for beginners)
-Internet connection
-24/7 online server - (Example - Render)
+Flask==3.0.0
+gunicorn==21.2.0
