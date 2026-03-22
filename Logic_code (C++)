@@ -1,0 +1,71 @@
+#include <Arduino.h>
+#include <WiFi.h>
+#include <HTTPClient.h>
+
+const char* ssid = "Wifi_name";
+const char* password = "Wifi_password";
+
+String serverName = "https://ai-home-server.onrender.com/get";
+
+int relayPin = 23;
+
+String lastCommand = "";
+
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(relayPin, OUTPUT);
+  digitalWrite(relayPin, HIGH);  // OFF initially (change if needed)
+
+  WiFi.begin(ssid, password);
+
+  Serial.print("Connecting to WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("\nConnected to WiFi!");
+}
+
+void loop() {
+
+  if (WiFi.status() == WL_CONNECTED) {
+
+    HTTPClient http;
+    http.begin(serverName);
+
+    int httpResponseCode = http.GET();
+
+    if (httpResponseCode > 0) {
+
+      String payload = http.getString();
+      Serial.println(payload);
+
+      // extract command manually
+      if (payload.indexOf("LIGHT_ON") != -1 && lastCommand != "LIGHT_ON") {
+
+        digitalWrite(relayPin, LOW);  // ON (try LOW if not working)
+        Serial.println("Relay ON");
+
+        lastCommand = "LIGHT_ON";
+      }
+
+      else if (payload.indexOf("LIGHT_OFF") != -1 && lastCommand != "LIGHT_OFF") {
+
+        digitalWrite(relayPin, HIGH);  // OFF (reverse if needed)
+        Serial.println("Relay OFF");
+
+        lastCommand = "LIGHT_OFF";
+      }
+
+    } else {
+      Serial.print("Error code: ");
+      Serial.println(httpResponseCode);
+    }
+
+    http.end();
+  }
+
+  delay(2000);  // VERY IMPORTANT (prevents spam)
+}
