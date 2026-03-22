@@ -1,3 +1,4 @@
 Esp32 dev module
 Relay module
-Application (FOr giving commands)
+Application (For giving commands)
+Internet connection
